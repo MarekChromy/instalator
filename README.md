@@ -1,3 +1,25 @@
-🚀 Kubuntu Beast: The 100+ Apps OMEGAKubuntu Beast OMEGA je interaktivní HTML nástroj pro bleskovou post-instalační konfiguraci systému Kubuntu (nebo jiných Debian-based distribucí). Zapomeňte na ruční vypisování desítek příkazů do terminálu – jednoduše si naklikejte software, který chcete, a nechte "Bestii", aby vygenerovala instalátor za vás.✨ Hlavní funkce100+ aplikací v 10 kategoriích: Od her (Wine/Steam) přes vývojářské nástroje (Docker/VS Code) až po multimédia.Automatické řešení PPA: Skript sám přidá repozitáře pro nejnovější verze LibreOffice, Krita, Inkscape a další.Specifické MS Repozitáře: Automatická konfigurace klíčů a zdrojů pro Microsoft Edge a Thincast.Čistý Bash výstup: Vygenerovaný skript je transparentní, bezpečný a snadno kontrolovatelný.Moderní UI: Temné rozhraní (Tokyo Night styl) optimalizované pro přehlednost.🛠 Jak to funguje?Stáhněte si soubor instalace.html.Otevřete jej v libovolném webovém prohlížeči.V záložkách si označte software, který chcete nainstalovat.Klikněte na tlačítko VYGENEROVAT TOTÁLNÍ SKRIPT.Uložte stažený soubor run_install.sh.🚀 Instalace systémuJakmile máte vygenerovaný skript ve složce se staženými soubory, spusťte terminál a zadejte:Bashchmod +x run_install.sh
-./run_install.sh
-📦 Kategorie softwaruKategorieObsahuje🍷 GAMING/RDPSteam, WineHQ, Lutris, Bottles, Heroic, Thincast...🌐 INTERNETEdge, Chrome, Brave, Discord, Signal, qBittorrent...🎬 VIDEOVLC, OBS Studio, Kdenlive, Handbrake, MPV...🎵 AUDIOAudacity, Spotify, Strawberry, Easy Effects...🛠️ NÁSTROJEKCalc, Spectacle, Ark, Kate, Partition Manager...🟦 DEV/MSVS Code, Git, Python 3, Docker, VirtualBox, Vim...🎨 GRAFIKAKrita, GIMP, Blender, Inkscape, Darktable...📁 OFFICELibreOffice, OnlyOffice, Okular, Calibre...🎲 HRY0 A.D., SuperTuxKart, OpenRA, Wesnoth...⚙️ SYSTÉMStacer, BTOP, Timeshift, GParted, Neofetch, Flatpak...⚠️ Důležitá upozorněníSudo práva: Skript vyžaduje administrátorské heslo pro instalaci balíčků.Architektura: Skript automaticky přidává podporu i386 (potřebné pro Wine a Steam).Závislosti: Skript automaticky doinstaluje základní balíčky jako curl, wget, unrar a ffmpeg.🤝 PřispíváníPokud vám v seznamu chybí vaše oblíbená aplikace, neváhejte otevřít Issue nebo poslat Pull Request s úpravou pole apps v JavaScriptu.Vytvořeno pro komunitu Kubuntu Beast. Užijte si jízdu! 🐉
+# 🚀 Kubuntu Beast: The 100+ Apps OMEGA
+
+Tento nástroj slouží k interaktivnímu výběru a automatizované instalaci softwaru pro Kubuntu a další Debian-based distribuce. Pomocí HTML rozhraní si uživatel nakliká potřebné aplikace a vygeneruje si vlastní instalační skript `run_install.sh`.
+
+## ✨ Klíčové vlastnosti
+* **Široký výběr:** Více než 100 aplikací rozdělených do přehledných kategorií (Hry, Internet, Video, Audio, Vývoj, Grafika atd.).
+* **Inteligentní skriptování:** Automaticky přidává potřebná PPA, klíče pro Microsoft repozitáře (Edge) a specifické zdroje (Thincast).
+* **Systémová příprava:** Skript sám nastavuje 32-bitovou architekturu a instaluje základní nástroje jako `curl`, `ffmpeg` nebo `unrar`.
+* **Moderní vzhled:** Temné UI optimalizované pro rychlou navigaci v kategoriích.
+
+## 🛠 Jak projekt použít
+1. Otevřete soubor `instalace.html` v prohlížeči.
+2. Vyberte aplikace, které chcete nainstalovat.
+3. Klikněte na tlačítko **VYGENEROVAT TOTÁLNÍ SKRIPT**.
+4. V terminálu spusťte stažený soubor:
+   ```bash
+   chmod +x run_install.sh && ./run_install.sh
+   Kategorie,Popis
+   
+🍷 Wine/Gaming,"Steam, WineHQ, Lutris, emulátory a herní utility."
+🌐 Internet,"Prohlížeče (Edge, Chrome, Brave) a komunikátory."
+🎬 Video/Audio,"Editory (Kdenlive, Audacity) a přehrávače (VLC, MPV)."
+🟦 Dev/MS,"VS Code, Docker, Python, Git a virtualizace."
+🎨 Grafika,"Krita, GIMP, Blender a správa fotek."
+⚙️ Systém,"Stacer, BTOP, Timeshift a správa disků."
