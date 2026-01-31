@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Kubuntu Beast OMEGA - MANUAL SELECTION EDITION</title>
+    <style>
+        body { background: #1a1b26; color: #c0caf5; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; }
+        .container { max-width: 1850px; margin: 0 auto; background: #24283b; padding: 25px; border-radius: 15px; border: 2px solid #414868; }
+        h1 { color: #f7768e; text-align: center; text-transform: uppercase; font-size: 2.2em; margin-bottom: 20px; text-shadow: 2px 2px #000; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; background: #1f2335; padding: 12px; border-radius: 10px; position: sticky; top: 0; z-index: 1000; border: 1px solid #414868; }
+        .tab-btn { flex: 1; min-width: 105px; background: #2e3440; color: #a9b1d6; border: 1px solid #414868; padding: 12px 5px; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.2s; font-size: 0.8em; }
+        .tab-btn.active { background: #7aa2f7; color: #1a1b26; transform: scale(1.05); }
+        .section { display: none; background: #1f2335; padding: 25px; border-radius: 10px; height: 720px; overflow-y: auto; border: 1px solid #414868; }
+        .section.active { display: block; }
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+        .app-item { display: flex; align-items: flex-start; padding: 15px; background: #24283b; border-radius: 10px; border: 1px solid #414868; }
+        input[type="checkbox"] { width: 22px; height: 22px; margin-right: 15px; margin-top: 4px; accent-color: #f7768e; cursor: pointer; }
+        .app-name { font-weight: bold; color: #7aa2f7; display: block; font-size: 1.1em; }
+        .app-desc { font-size: 0.9em; color: #9499b8; }
+        .footer { margin-top: 30px; text-align: center; }
+        #start-btn { background: #9ece6a; color: #1a1b26; border: none; padding: 25px 100px; font-size: 1.8em; font-weight: bold; cursor: pointer; border-radius: 60px; }
+        code { background: #15161e; padding: 20px; color: #9ece6a; display: block; border-radius: 10px; font-family: monospace; font-size: 1.1em; margin-top: 20px; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 KUBUNTU BEAST: THE 100+ APPS OMEGA</h1>
+    <div class="tabs" id="tabs-container"></div>
+    <div id="sections-container"></div>
+    <div class="footer">
+        <button id="start-btn" onclick="generateAndDownload()">VYGENEROVAT TOTÁLNÍ SKRIPT</button>
+        <div id="info-box" style="display:none">
+            <code>chmod +x run_install.sh && ./run_install.sh</code>
+        </div>
+    </div>
+</div>
+
+<script>
+    const apps = [
+        // --- GAMING/RDP (12) ---
+        { id: "steam", name: "Steam", desc: "Herní platforma", cat: "Wine", checked: false },
+        { id: "thincast-client", name: "Thincast", desc: "Pro RDP Client", cat: "Wine", checked: false },
+        { id: "remmina", name: "Remmina", desc: "Remote Desktop", cat: "Wine", checked: false },
+        { id: "wine-hq", name: "WineHQ Stable", desc: "Windows Apps Support", cat: "Wine", checked: false },
+        { id: "winetricks", name: "Winetricks", desc: "Wine Helper", cat: "Wine", checked: false },
+        { id: "lutris", name: "Lutris", desc: "Game Manager", cat: "Wine", checked: false },
+        { id: "bottles", name: "Bottles", desc: "Wine Bottles", cat: "Wine", checked: false },
+        { id: "heroic-games-launcher", name: "Heroic", desc: "Epic/GOG Launcher", cat: "Wine", checked: false },
+        { id: "playonlinux", name: "PlayOnLinux", desc: "Wine Front-end", cat: "Wine", checked: false },
+        { id: "mangohud", name: "MangoHud", desc: "FPS Overlay", cat: "Wine", checked: false },
+        { id: "goverlay", name: "GOverlay", desc: "UI pro MangoHud", cat: "Wine", checked: false },
+        { id: "vkbasalt", name: "vkBasalt", desc: "Post-processing shader", cat: "Wine", checked: false },
+
+        // --- INTERNET (12) ---
+        { id: "microsoft-edge-stable", name: "Microsoft Edge", desc: "MS Web Browser", cat: "Net", checked: false },
+        { id: "ppa:qbittorrent-team/qbittorrent-stable", name: "qBittorrent", desc: "Torrent Client (PPA)", cat: "Net", checked: false },
+        { id: "google-chrome-stable", name: "Google Chrome", desc: "Web Browser", cat: "Net", checked: false },
+        { id: "brave-browser", name: "Brave Browser", desc: "Privacy Browser", cat: "Net", checked: false },
+        { id: "firefox", name: "Firefox", desc: "Standard Browser", cat: "Net", checked: false },
+        { id: "discord", name: "Discord", desc: "Social/Chat", cat: "Net", checked: false },
+        { id: "telegram-desktop", name: "Telegram", desc: "Messenger", cat: "Net", checked: false },
+        { id: "thunderbird", name: "Thunderbird", desc: "Email", cat: "Net", checked: false },
+        { id: "filezilla", name: "FileZilla", desc: "FTP Client", cat: "Net", checked: false },
+        { id: "signal-desktop", name: "Signal", desc: "Secure Messenger", cat: "Net", checked: false },
+        { id: "qbittorrent-nox", name: "qBittorrent (NoX)", desc: "WebUI verze", cat: "Net", checked: false },
+        { id: "chromium-browser", name: "Chromium", desc: "Open Source Chrome", cat: "Net", checked: false },
+
+        // --- VIDEO (12) ---
+        { id: "vlc", name: "VLC Player", desc: "Univerzální player", cat: "Vid", checked: false },
+        { id: "mpv", name: "MPV", desc: "High-perf player", cat: "Vid", checked: false },
+        { id: "ppa:kdenlive/kdenlive-stable", name: "Kdenlive", desc: "Video Editor (PPA)", cat: "Vid", checked: false },
+        { id: "openshot-qt", name: "OpenShot", desc: "Powerful Video Editor", cat: "Vid", checked: false },
+        { id: "ppa:obsproject/obs-studio", name: "OBS Studio", desc: "Streaming/Record", cat: "Vid", checked: false },
+        { id: "handbrake", name: "Handbrake", desc: "Video Transcoder", cat: "Vid", checked: false },
+        { id: "shotcut", name: "Shotcut", desc: "Video Editor", cat: "Vid", checked: false },
+        { id: "smplayer", name: "SMPlayer", desc: "Advanced GUI for MPV", cat: "Vid", checked: false },
+        { id: "haruna", name: "Haruna", desc: "KDE Video Player", cat: "Vid", checked: false },
+        { id: "avidemux", name: "Avidemux", desc: "Simple cutting", cat: "Vid", checked: false },
+        { id: "cheese", name: "Cheese", desc: "Webcam tool", cat: "Vid", checked: false },
+        { id: "pitivi", name: "Pitivi", desc: "Video Editor", cat: "Vid", checked: false },
+
+        // --- AUDIO (12) ---
+        { id: "audacity", name: "Audacity", desc: "Audio Editor", cat: "Aud", checked: false },
+        { id: "spotify-client", name: "Spotify", desc: "Music Streaming", cat: "Aud", checked: false },
+        { id: "strawberry", name: "Strawberry", desc: "Music Player/Organizer", cat: "Aud", checked: false },
+        { id: "clementine", name: "Clementine", desc: "Classic Player", cat: "Aud", checked: false },
+        { id: "mixxx", name: "Mixxx", desc: "DJ Software", cat: "Aud", checked: false },
+        { id: "amarok", name: "Amarok", desc: "KDE Music Legend", cat: "Aud", checked: false },
+        { id: "audacious", name: "Audacious", desc: "Winamp style player", cat: "Aud", checked: false },
+        { id: "elisa", name: "Elisa", desc: "Modern KDE player", cat: "Aud", checked: false },
+        { id: "pavucontrol", name: "PulseAudio Control", desc: "Audio Mixer", cat: "Aud", checked: false },
+        { id: "easyeffects", name: "Easy Effects", desc: "Audio processing", cat: "Aud", checked: false },
+        { id: "sayonara", name: "Sayonara", desc: "Lightweight player", cat: "Aud", checked: false },
+        { id: "musescore3", name: "MuseScore", desc: "Music Notation", cat: "Aud", checked: false },
+
+        // --- NASTROJE (12) ---
+        { id: "kcalc", name: "KCalc", desc: "Vědecká kalkulačka", cat: "Tool", checked: false },
+        { id: "galculator", name: "Galculator", desc: "Lehká kalkulačka", cat: "Tool", checked: false },
+        { id: "korganizer", name: "KOrganizer", desc: "Kalendář", cat: "Tool", checked: false },
+        { id: "spectacle", name: "Spectacle", desc: "Snímky obrazovky", cat: "Tool", checked: false },
+        { id: "speedtest-cli", name: "Speedtest CLI", desc: "Měření rychlosti", cat: "Tool", checked: false },
+        { id: "knotes", name: "KNotes", desc: "Poznámky", cat: "Tool", checked: false },
+        { id: "ark", name: "Ark", desc: "Archivátor", cat: "Tool", checked: false },
+        { id: "kate", name: "Kate", desc: "Advanced Text Editor", cat: "Tool", checked: false },
+        { id: "kfind", name: "KFind", desc: "Search tool", cat: "Tool", checked: false },
+        { id: "kweather", name: "KWeather", desc: "Počasí", cat: "Tool", checked: false },
+        { id: "sweeper", name: "Sweeper", desc: "System cleaner", cat: "Tool", checked: false },
+        { id: "partitionmanager", name: "KDE Partition Manager", desc: "Správa disků", cat: "Tool", checked: false },
+
+        // --- DEV & MS (12) ---
+        { id: "microsoft-edge-stable", name: "MS Edge (Dev Copy)", desc: "Web Browser", cat: "Dev", checked: false },
+        { id: "code", name: "VS Code", desc: "IDE", cat: "Dev", checked: false },
+        { id: "git", name: "Git", desc: "Version Control", cat: "Dev", checked: false },
+        { id: "python3-full", name: "Python 3 Full", desc: "Full Environment", cat: "Dev", checked: false },
+        { id: "docker.io", name: "Docker", desc: "Containers", cat: "Dev", checked: false },
+        { id: "virtualbox", name: "VirtualBox", desc: "Virtualization", cat: "Dev", checked: false },
+        { id: "build-essential", name: "Build Essential", desc: "GCC/Make", cat: "Dev", checked: false },
+        { id: "nodejs", name: "Node.js", desc: "Runtime", cat: "Dev", checked: false },
+        { id: "geany", name: "Geany", desc: "Lightweight IDE", cat: "Dev", checked: false },
+        { id: "vim", name: "Vim", desc: "Terminal Editor", cat: "Dev", checked: false },
+        { id: "filezilla", name: "FileZilla (Dev)", desc: "FTP", cat: "Dev", checked: false },
+        { id: "dbeaver-ce", name: "DBeaver", desc: "DB Manager", cat: "Dev", checked: false },
+
+        // --- GFX (12) ---
+        { id: "ppa:kritalime/ppa", name: "Krita", desc: "Painting (PPA)", cat: "GFX", checked: false },
+        { id: "ppa:inkscape.dev/stable", name: "Inkscape", desc: "Vectors (PPA)", cat: "GFX", checked: false },
+        { id: "gimp", name: "GIMP", desc: "Photo Editor", cat: "GFX", checked: false },
+        { id: "blender", name: "Blender", desc: "3D Graphics", cat: "GFX", checked: false },
+        { id: "digikam", name: "digiKam", desc: "Photo Management", cat: "GFX", checked: false },
+        { id: "darktable", name: "Darktable", desc: "RAW Developer", cat: "GFX", checked: false },
+        { id: "pinta", name: "Pinta", desc: "Jednoduchý editor", cat: "GFX", checked: false },
+        { id: "gwenview", name: "Gwenview", desc: "Prohlížeč obrázků", cat: "GFX", checked: false },
+        { id: "karbon", name: "Karbon", desc: "Vector drawing", cat: "GFX", checked: false },
+        { id: "kolourpaint", name: "KolourPaint", desc: "MS Paint clone", cat: "GFX", checked: false },
+        { id: "rawtherapee", name: "RawTherapee", desc: "RAW editor", cat: "GFX", checked: false },
+        { id: "inkscape", name: "Inkscape (Stock)", desc: "Vektory", cat: "GFX", checked: false },
+
+        // --- OFFICE (12) ---
+        { id: "ppa:libreoffice/ppa", name: "LibreOffice", desc: "Office Suite (PPA)", cat: "Office", checked: false },
+        { id: "onlyoffice-desktopeditors", name: "OnlyOffice", desc: "MS Compatibility", cat: "Office", checked: false },
+        { id: "okular", name: "Okular", desc: "PDF Reader", cat: "Office", checked: false },
+        { id: "calibre", name: "Calibre", desc: "E-books", cat: "Office", checked: false },
+        { id: "skanlite", name: "Skanlite", desc: "Scanning", cat: "Office", checked: false },
+        { id: "masterpdfeditor", name: "Master PDF Editor", desc: "PDF Edit", cat: "Office", checked: false },
+        { id: "kwordquiz", name: "KWordQuiz", desc: "Learning tool", cat: "Office", checked: false },
+        { id: "kwrite", name: "KWrite", desc: "Text editor", cat: "Office", checked: false },
+        { id: "libreoffice-kde6", name: "LibreOffice Plasma Integration", desc: "UI fix", cat: "Office", checked: false },
+        { id: "abiword", name: "AbiWord", desc: "Lightweight Word", cat: "Office", checked: false },
+        { id: "gnumeric", name: "Gnumeric", desc: "Lightweight Excel", cat: "Office", checked: false },
+        { id: "evolution", name: "Evolution", desc: "Groupware", cat: "Office", checked: false },
+
+        // --- GAMES (14) ---
+        { id: "0ad", name: "0 A.D.", desc: "Historická RTS", cat: "Games", checked: false },
+        { id: "supertuxkart", name: "SuperTuxKart", desc: "Závody", cat: "Games", checked: false },
+        { id: "xonotic", name: "Xonotic", desc: "Rychlá FPS", cat: "Games", checked: false },
+        { id: "openra", name: "OpenRA", desc: "C&C / Dune 2000", cat: "Games", checked: false },
+        { id: "wesnoth", name: "Wesnoth", desc: "Tahová strategie", cat: "Games", checked: false },
+        { id: "minetest", name: "Minetest", desc: "Minecraft clone", cat: "Games", checked: false },
+        { id: "astromenace", name: "AstroMenace", desc: "Vesmírná střílečka", cat: "Games", checked: false },
+        { id: "scummvm", name: "ScummVM", desc: "Retro adventury", cat: "Games", checked: false },
+        { id: "dosbox", name: "DOSBox", desc: "DOS emulátor", cat: "Games", checked: false },
+        { id: "flightgear", name: "FlightGear", desc: "Letecký simulátor", cat: "Games", checked: false },
+        { id: "supertux", name: "SuperTux 2", desc: "Plošinovka", cat: "Games", checked: false },
+        { id: "frozen-bubble", name: "Frozen Bubble", desc: "Puzzle klasika", cat: "Games", checked: false },
+        { id: "extreme-tux-racer", name: "Tux Racer", desc: "Sjezd tučňáka", cat: "Games", checked: false },
+        { id: "warzone2100", name: "Warzone 2100", desc: "3D RTS", cat: "Games", checked: false },
+
+        // --- SYSTEM (12) ---
+        { id: "stacer", name: "Stacer", desc: "Optimalizace", cat: "Sys", checked: false },
+        { id: "btop", name: "BTOP", desc: "Moderní monitor", cat: "Sys", checked: false },
+        { id: "timeshift", name: "Timeshift", desc: "Zálohy", cat: "Sys", checked: false },
+        { id: "gparted", name: "GParted", desc: "Editor oddílů", cat: "Sys", checked: false },
+        { id: "neofetch", name: "Neofetch", desc: "Info o systému", cat: "Sys", checked: false },
+        { id: "keepassxc", name: "KeePassXC", desc: "Správce hesel", cat: "Sys", checked: false },
+        { id: "flatpak", name: "Flatpak", desc: "Podpora balíčků", cat: "Sys", checked: false },
+        { id: "htop", name: "HTop", desc: "Process monitor", cat: "Sys", checked: false },
+        { id: "kshutdown", name: "KShutdown", desc: "Advanced shutdown", cat: "Sys", checked: false },
+        { id: "gnome-disk-utility", name: "Disks", desc: "Správa disků", cat: "Sys", checked: false },
+        { id: "bleachbit", name: "BleachBit", desc: "Deep cleaner", cat: "Sys", checked: false },
+        { id: "grub-customizer", name: "Grub Customizer", desc: "Úprava bootu", cat: "Sys", checked: false }
+    ];
+
+    const categories = {
+        "Wine": "🍷 GAMING/RDP", "Net": "🌐 INTERNET", "Vid": "🎬 VIDEO", "Aud": "🎵 AUDIO",
+        "Tool": "🛠️ NÁSTROJE", "Dev": "🟦 DEV/MS", "GFX": "🎨 GRAFIKA", "Office": "📁 OFFICE",
+        "Games": "🎲 HRY", "Sys": "⚙️ SYSTÉM"
+    };
+
+    function init() {
+        const tabsCont = document.getElementById('tabs-container');
+        const sectsCont = document.getElementById('sections-container');
+        Object.keys(categories).forEach((catKey, index) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+            btn.innerText = categories[catKey];
+            btn.onclick = (e) => openTab(e, catKey);
+            tabsCont.appendChild(btn);
+            const sect = document.createElement('div');
+            sect.id = catKey; sect.className = `section ${index === 0 ? 'active' : ''}`;
+            const grid = document.createElement('div'); grid.className = 'app-grid';
+            apps.filter(a => a.cat === catKey).forEach(app => {
+                grid.innerHTML += `<div class="app-item"><input type="checkbox" data-id="${app.id}" ${app.checked ? 'checked' : ''}><div><span class="app-name">${app.name}</span><span class="app-desc">${app.desc}</span></div></div>`;
+            });
+            sect.appendChild(grid); sectsCont.appendChild(sect);
+        });
+    }
+
+    function openTab(evt, name) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(name).classList.add('active'); evt.currentTarget.classList.add('active');
+    }
+
+    function generateAndDownload() {
+        let pkgs = ["unrar", "p7zip-full", "curl", "wget", "net-tools", "ffmpeg", "libavcodec-extra"];
+        let ppa = [];
+        let script = "#!/bin/bash\n# KUBUNTU BEAST MEGA SCRIPT\nsudo -v\nsudo dpkg --add-architecture i386\n";
+
+        const thincast = document.querySelector('input[data-id="thincast-client"]');
+        if(thincast && thincast.checked) {
+            script += "wget -qO- https://dl.thincast.com/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/thincast.gpg\n";
+            script += "echo 'deb [signed-by=/usr/share/keyrings/thincast.gpg] https://dl.thincast.com/apt/ stable main' | sudo tee /etc/apt/sources.list.d/thincast.list\n";
+            pkgs.push("thincast-client");
+        }
+
+        const edge = document.querySelector('input[data-id="microsoft-edge-stable"]');
+        if(edge && edge.checked) {
+            script += "wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-edge.gpg > /dev/null\necho 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main' | sudo tee /etc/apt/sources.list.d/microsoft-edge.list\n";
+            pkgs.push("microsoft-edge-stable");
+        }
+
+        document.querySelectorAll('input:checked').forEach(i => {
+            let val = i.getAttribute('data-id');
+            if(!val || val === "thincast-client" || val === "microsoft-edge-stable") return;
+            if (val.startsWith('ppa:')) {
+                ppa.push(val);
+                if(val.includes('qbittorrent')) pkgs.push('qbittorrent');
+                else if(val.includes('libreoffice')) pkgs.push('libreoffice');
+                else if(val.includes('krita')) pkgs.push('krita');
+                else if(val.includes('inkscape')) pkgs.push('inkscape');
+                else if(val.includes('kdenlive')) pkgs.push('kdenlive');
+                else if(val.includes('obsproject')) pkgs.push('obs-studio');
+            } else { pkgs.push(val); }
+        });
+
+        ppa.forEach(p => script += `sudo add-apt-repository -y ${p}\n`);
+        script += "sudo apt update && sudo apt install -y " + [...new Set(pkgs)].join(' ') + "\n";
+        script += "echo '✅ INSTALACE HOTOVA! RESTARTUJTE PC.'; read\n";
+
+        const blob = new Blob([script], { type: 'text/x-sh' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'run_install.sh';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        document.getElementById('info-box').style.display = 'block';
+    }
+    init();
+</script>
+</body>
+</html>
